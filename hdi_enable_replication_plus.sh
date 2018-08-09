@@ -417,11 +417,11 @@ validate_arguments()
 
 validate_ambari_credentials() 
 {
-	#SRC_AMBARI_PASSWORD=`echo $SRC_AMBARI_PASSWORD`
-	SRC_AMBARI_PASSWORD=`echo $SRC_AMBARI_PASSWORD` > /tmp/validate_ambari_credentials0.log
-	SRC_AMBARI_USER=`echo $SRC_AMBARI_USER` >> /tmp/validate_ambari_credentials0.log
-	SRC_CLUSTER=`echo $SRC_CLUSTER` >> /tmp/validate_ambari_credentials0.log
-	SUFFIX=`echo $SUFFIX` >> /tmp/validate_ambari_credentials0.log
+	SRC_AMBARI_PASSWORD=`echo $SRC_AMBARI_PASSWORD`
+	echo $SRC_AMBARI_PASSWORD > /tmp/validate_ambari_credentials0.log
+	echo $SRC_AMBARI_USER >> /tmp/validate_ambari_credentials0.log
+	echo $SRC_CLUSTER >> /tmp/validate_ambari_credentials0.log
+	echo $SUFFIX >> /tmp/validate_ambari_credentials0.log
 
 	curl -u $SRC_AMBARI_USER:$SRC_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$SRC_CLUSTER.$SUFFIX/api/v1/clusters/$SRC_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /tmp/validate_ambari_credentials1.log
 	grep -i "access.*denied" /tmp/hbase.json > /dev/null 2>&1
@@ -436,10 +436,10 @@ validate_ambari_credentials()
 		echo "[INFO] Primary cluster credentials successfully validated."
 	fi
 
-	DST_AMBARI_PASSWORD=`echo $DST_AMBARI_PASSWORD` >> /tmp/validate_ambari_credentials0.log
-	DST_AMBARI_USER=`echo $DST_AMBARI_USER` >> /tmp/validate_ambari_credentials0.log
-	DST_CLUSTER=`echo $DST_CLUSTER` >> /tmp/validate_ambari_credentials0.log
-	SUFFIX=`echo $SUFFIX` >> /tmp/validate_ambari_credentials0.log
+	echo $DST_AMBARI_PASSWORD >> /tmp/validate_ambari_credentials0.log
+	echo $DST_AMBARI_USER >> /tmp/validate_ambari_credentials0.log
+	echo $DST_CLUSTER >> /tmp/validate_ambari_credentials0.log
+	echo $SUFFIX >> /tmp/validate_ambari_credentials0.log
 
 	curl -u $DST_AMBARI_USER:$DST_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$DST_CLUSTER.$SUFFIX/api/v1/clusters/$DST_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /tmp/validate_ambari_credentials2.log
 	grep -i "access.*denied" /tmp/hbase.json > /dev/null 2>&1
