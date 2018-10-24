@@ -538,6 +538,11 @@ set_tables_to_replicate ()
 		TABLES_ARRAY=(`curl -u $SRC_AMBARI_USER:$SRC_AMBARI_PASSWORD -G "https://$SRC_CLUSTER.$SUFFIX/hbaserest/" 2> /dev/null`)
 	fi
 
+	--- Add log info
+	echo Line531:set_tables_to_replicate >> /tmp/hdi_enable_replication.log
+	echo ${TABLES_ARRAY[@]} >> /tmp/hdi_enable_replication.log
+	--- Add log info
+
 	# TODO: VALIDATION OF TABLES IS NOT EASY AS LIST OPERATION COULD TAKE TIME. 
 	# FOR CUSTOMER'S WHO HAVE 1000'S OF TABLES, PROVIDING COMMAND LINE ARGUMENT 
 	# IS BETTER FOR REPLICATION.
@@ -643,6 +648,15 @@ then
 	done
 
 	echo $TABLE_COPY_STRING
+
+	--- Add log info
+	echo TABLE_COPY_STRING >> /tmp/hdi_enable_replication.log
+	echo $TABLE_COPY_STRING >> /tmp/hdi_enable_replication.log
+	echo REPLICATION_PEER >> /tmp/hdi_enable_replication.log
+	echo $REPLICATION_PEER >> /tmp/hdi_enable_replication.log
+	echo MACHINE >> /tmp/hdi_enable_replication.log
+	echo $MACHINE >> /tmp/hdi_enable_replication.log
+	--- Add log info
 
 	# DOWNLOAD hdi_copy_table.sh script
 	#
