@@ -418,12 +418,12 @@ validate_arguments()
 validate_ambari_credentials() 
 {
 	SRC_AMBARI_PASSWORD=`echo $SRC_AMBARI_PASSWORD`
-	echo $SRC_AMBARI_PASSWORD > /tmp/validate_ambari_credentials0.log
-	echo $SRC_AMBARI_USER >> /tmp/validate_ambari_credentials0.log
-	echo $SRC_CLUSTER >> /tmp/validate_ambari_credentials0.log
-	echo $SUFFIX >> /tmp/validate_ambari_credentials0.log
+	echo $SRC_AMBARI_PASSWORD > /var/log/enable_replication/validate_ambari_credentials0.log
+	echo $SRC_AMBARI_USER >> /var/log/enable_replication/validate_ambari_credentials0.log
+	echo $SRC_CLUSTER >> /var/log/enable_replication/validate_ambari_credentials0.log
+	echo $SUFFIX >> /var/log/enable_replication/validate_ambari_credentials0.log
 
-	curl -u $SRC_AMBARI_USER:$SRC_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$SRC_CLUSTER.$SUFFIX/api/v1/clusters/$SRC_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /tmp/validate_ambari_credentials1.log
+	curl -u $SRC_AMBARI_USER:$SRC_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$SRC_CLUSTER.$SUFFIX/api/v1/clusters/$SRC_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /var/log/enable_replication/validate_ambari_credentials01.log
 	grep -i "access.*denied" /tmp/hbase.json > /dev/null 2>&1
 
 	RESULT=$?
@@ -436,12 +436,12 @@ validate_ambari_credentials()
 		echo "[INFO] Primary cluster credentials successfully validated."
 	fi
 
-	echo $DST_AMBARI_PASSWORD >> /tmp/validate_ambari_credentials0.log
-	echo $DST_AMBARI_USER >> /tmp/validate_ambari_credentials0.log
-	echo $DST_CLUSTER >> /tmp/validate_ambari_credentials0.log
-	echo $SUFFIX >> /tmp/validate_ambari_credentials0.log
+	echo $DST_AMBARI_PASSWORD >> /var/log/enable_replication/validate_ambari_credentials1.log
+	echo $DST_AMBARI_USER >> /var/log/enable_replication/validate_ambari_credentials1.log
+	echo $DST_CLUSTER >> /var/log/enable_replication/validate_ambari_credentials1.log
+	echo $SUFFIX >> /var/log/enable_replication/validate_ambari_credentials1.log
 
-	curl -u $DST_AMBARI_USER:$DST_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$DST_CLUSTER.$SUFFIX/api/v1/clusters/$DST_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /tmp/validate_ambari_credentials2.log
+	curl -u $DST_AMBARI_USER:$DST_AMBARI_PASSWORD -X GET -H "X-Requested-By: ambari" "https://$DST_CLUSTER.$SUFFIX/api/v1/clusters/$DST_CLUSTER?fields=Clusters/desired_configs/hbase-site" -o /tmp/hbase.json 2> /var/log/enable_replication/validate_ambari_credentials02.log
 	grep -i "access.*denied" /tmp/hbase.json > /dev/null 2>&1
 
 	RESULT=$?
@@ -539,8 +539,8 @@ set_tables_to_replicate ()
 	fi
 
 	--- Add log info
-	echo Line531:set_tables_to_replicate >> /tmp/hdi_enable_replication.log
-	echo ${TABLES_ARRAY[@]} >> /tmp/hdi_enable_replication.log
+	echo Line531:set_tables_to_replicate >> /var/log/enable_replication/hdi_enable_replication.log
+	echo ${TABLES_ARRAY[@]} >> /var/log/enable_replication/hdi_enable_replication.log
 	--- Add log info
 
 	# TODO: VALIDATION OF TABLES IS NOT EASY AS LIST OPERATION COULD TAKE TIME. 
@@ -650,12 +650,12 @@ then
 	echo $TABLE_COPY_STRING
 
 	--- Add log info
-	echo TABLE_COPY_STRING >> /tmp/hdi_enable_replication.log
-	echo $TABLE_COPY_STRING >> /tmp/hdi_enable_replication.log
-	echo REPLICATION_PEER >> /tmp/hdi_enable_replication.log
-	echo $REPLICATION_PEER >> /tmp/hdi_enable_replication.log
-	echo MACHINE >> /tmp/hdi_enable_replication.log
-	echo $MACHINE >> /tmp/hdi_enable_replication.log
+	echo TABLE_COPY_STRING >> /var/log/enable_replication/hdi_enable_replication.log
+	echo $TABLE_COPY_STRING >> /var/log/enable_replication/hdi_enable_replication.log
+	echo REPLICATION_PEER >> /var/log/enable_replication/hdi_enable_replication.log
+	echo $REPLICATION_PEER >> /var/log/enable_replication/hdi_enable_replication.log
+	echo MACHINE >> /var/log/enable_replication/hdi_enable_replication.log
+	echo $MACHINE >> /var/log/enable_replication/hdi_enable_replication.log
 	--- Add log info
 
 	# DOWNLOAD hdi_copy_table.sh script
